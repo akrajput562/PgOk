@@ -1,0 +1,87 @@
+/* PGOwnerRegister.css */
+.register-container {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh;
+    width: 150vh;
+    background-color: #f9f9f9;
+  }
+  
+  .register-form {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    max-width: 80%;
+  }
+  
+  .register-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .form-group input[type="file"] {
+    padding: 8px;
+  }
+  
+  .submit-btn {
+    background-color: #4caf50;
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .submit-btn:active {
+    background-color: #388e3c;
+  }
+  .error-messages {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .error-messages ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .error-messages li {
+    font-size: 14px;
+  }
+  
