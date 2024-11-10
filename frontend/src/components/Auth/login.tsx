@@ -3,28 +3,26 @@ import { login } from '../../services/authServices';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Import the stylesheet
 
-const Login: React.FC = () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Use the navigate function to handle redirection after login
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Reset error message on each new attempt
     setError('');
 
     try {
       const data = await login(email, password);
       console.log('Login successful:', data);
 
-      // On successful login, save the token (in local storage or context) and redirect user
-      localStorage.setItem('authToken', data.token);  // Save JWT token for session
+      // Save token in local storage for session management
+      localStorage.setItem('authToken', data.token);
 
-      // Navigate to the appropriate page after login
+      // Navigate to dashboard after successful login
       navigate('/dashboard');
-    } catch (error: any) {
+    } catch (error) {
       setError('Invalid email or password. Please try again.');
       console.error('Login error:', error);
     }

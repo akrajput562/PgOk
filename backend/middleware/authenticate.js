@@ -1,7 +1,6 @@
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-// Use the secret from the environment variable
 const authenticate = (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) {
@@ -9,7 +8,7 @@ const authenticate = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use the secret from .env
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (ex) {
