@@ -1,17 +1,16 @@
-const db = require('../Model/db')
+const db = require('../Model/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-// Register router
+
 const registerOwner = async (req, res) => {
   const { ownerName, ownerEmail, ownerPhone, ownerPassword, propertyName, propertyLocation } = req.body;
-  console.log(req.body);
+
   if (!ownerName || !ownerEmail || !ownerPhone || !ownerPassword || !propertyName || !propertyLocation) {
     return res.status(400).json({ message: 'Please fill all the fields' });
   }
 
-  // Construct property details or adapt query accordingly
-  const saltRounds = 10; // Define the number of rounds for salt
+  const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(ownerPassword, saltRounds);
   const query = 'INSERT INTO owners (ownerName, ownerEmail, ownerPhone, ownerPassword, propertyName, propertyLocation) VALUES (?, ?, ?, ?, ?, ?)';
   const values = [ownerName, ownerEmail, ownerPhone, hashedPassword, propertyName, propertyLocation];
@@ -52,12 +51,12 @@ const login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, email: user.ownerEmail },
-      process.env.JWT_SECRET,  // Secret key for JWT token
-      { expiresIn: '1h' } // Expire in 1 hour
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
     );
 
     res.json({ message: 'Login successful', token });
   });
 };
 
-module.exports = { registerOwner,login };
+module.exports = { registerOwner, login };

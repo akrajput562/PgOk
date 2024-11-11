@@ -70,7 +70,7 @@ const PGOwnerRegister: React.FC = () => {
       console.log(formData);
       // Send POST request to your backend API
       // const response = await axios.post('http://localhost:5000/api/owners/register', formData);
-      const response = await register(formData.ownerName, formData.ownerEmail, formData.ownerPassword,formData.ownerPhone,formData.propertyLocation,formData.propertyName);
+      const response = await register(formData.ownerName, formData.ownerEmail, formData.ownerPassword, formData.ownerPhone, formData.propertyLocation, formData.propertyName);
 
 
       // Handle response from server (for example, a success message)
