@@ -1,4 +1,4 @@
-const db = require('../Model/db');
+const db = require('../Config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -29,14 +29,14 @@ const registerOwner = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { ownerEmail, ownerPassword } = req.body;
 
-  if (!email || !password) {
+  if (!ownerEmail || !ownerPassword) {
     return res.status(400).json({ message: 'Please enter both email and password' });
   }
 
   const query = 'SELECT * FROM owners WHERE ownerEmail = ?';
-  db.query(query, [email], async (err, results) => {
+  db.query(query, [ownerEmail], async (err, results) => {
     if (err) return res.status(500).json({ message: 'Database error' });
 
     if (results.length === 0) {
@@ -44,7 +44,7 @@ const login = async (req, res) => {
     }
 
     const user = results[0];
-    const isMatch = await bcrypt.compare(password, user.ownerPassword);
+    const isMatch = await bcrypt.compare(ownerPassword, user.ownerPassword);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
@@ -59,4 +59,5 @@ const login = async (req, res) => {
   });
 };
 
+// Export using CommonJS syntax
 module.exports = { registerOwner, login };

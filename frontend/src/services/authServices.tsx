@@ -1,9 +1,10 @@
 import axios from 'axios';
+import apiClient from '../utils/axiosInstance';
 
-const API_URL = 'http://localhost:5000/api/owners';
+const API_URL = process.env.API_URL;
 
 export const register = async (ownerName: string, ownerEmail: string, ownerPassword: string, ownerPhone: string, propertyName: string, propertyLocation: string) => {
-  const response = await axios.post(`${API_URL}/register`, { 
+  const response = await apiClient.post(`${API_URL}/register`, { 
     ownerName, 
     ownerEmail, 
     ownerPassword, 
@@ -14,11 +15,20 @@ export const register = async (ownerName: string, ownerEmail: string, ownerPassw
   return response.data;
 };
 
-export const login = async (email: string, password: string) => {
+export const login = async (ownerEmail: string, ownerPassword: string) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, { email, password });
-    return response.data; // Return the token and other login details from the server
-  } catch (error) {
-    throw error; // Propagate error to the login page
+    const response = await apiClient.post(`owners/login`, {
+      ownerEmail,
+      ownerPassword,
+    });
+    return response.data; // Returning token and role from backend
+  } catch (error: any) {
+    if (error.response) {
+      // If response error (i.e. 400, 401, etc.)
+      throw new Error(error.response.data.message || 'Login failed');
+    } else {
+      // If network or other error
+      throw new Error(error.message || 'Something went wrong');
+    }
   }
 };

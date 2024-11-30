@@ -13,8 +13,8 @@ const Sidebar: React.FC = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/listings" >
-          Listings
+        <NavLink to="/add-properties" >
+          Pg Management
         </NavLink>
       </li>
       <li>

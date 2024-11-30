@@ -139,5 +139,196 @@
     .sidebar {
       width: 200px;
     }}
-  
- 
+  /* Container styling */
+.pg-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+h1 {
+  color: #333;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* PG Form Styling */
+.pg-form {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.pg-form input {
+  width: 45%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.pg-form button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pg-form button:hover {
+  background-color: #0056b3;
+}
+
+/* PG List */
+.pg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pg-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pg-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.pg-card p {
+  color: #555;
+}
+
+.floor-section {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.floor-section button {
+  padding: 6px 12px;
+  margin-top: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.floor-section button:hover {
+  background-color: #218838;
+}
+
+.room-list {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.room-card {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+}
+
+.room-card p {
+  font-size: 14px;
+}
+
+.room-card span {
+  font-weight: bold;
+  color: #007bff;
+}
+.room-type-dropdown {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.room-type-dropdown select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.pg-form, .add-floor-section, .add-room-section {
+  margin-bottom: 20px;
+}
+
+.pg-form input, .add-floor-section input, .add-room-section input, .add-room-section select {
+  padding: 8px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.pg-list {
+  margin-top: 20px;
+}
+
+.pg-card, .floor-section, .room-card {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.floor-section {
+  margin-left: 20px;
+}
+
+.room-list {
+  margin-left: 20px;
+}
+
+.room-card {
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+.room-type-dropdown {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.room-type-dropdown select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}

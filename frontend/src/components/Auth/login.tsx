@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { login } from '../../services/authServices';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Import the stylesheet
+import './Login.css';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+type LoginProps = {
+  onLogin: (role: 'tenant' | 'owner', token: string) => void;
+};
+
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  const [ownerEmail, setEmail] = useState('');
+  const [ownerPassword, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -14,12 +18,17 @@ const Login = () => {
     setError('');
 
     try {
-      const data = await login(email, password);
+      const data = await login(ownerEmail, ownerPassword);
       console.log('Login successful:', data);
 
       // Save token in local storage for session management
       localStorage.setItem('authToken', data.token);
 
+      // Example role assignment (e.g., 'owner') - replace with actual role from data if available
+      const userRole = 'owner'; // Adjust this based on your response structure
+      const token = data.token;
+      onLogin(userRole, token);
+      
       // Navigate to dashboard after successful login
       navigate('/dashboard');
     } catch (error) {
@@ -37,7 +46,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
-            value={email}
+            value={ownerEmail}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -47,7 +56,7 @@ const Login = () => {
           <input
             type="password"
             placeholder="Password"
-            value={password}
+            value={ownerPassword}
             onChange={(e) => setPassword(e.target.value)}
             required
           />

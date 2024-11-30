@@ -1,76 +1,96 @@
-import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../App.css';
 
-interface NavbarProps {
-    userRole: 'tenant' | 'owner';
+import '../../App.css';
+interface HeaderProps {
+  userRole?: 'tenant' | 'owner';
+  onLogout?: () => void; // Accept onLogout as a prop
 }
 
-const Navbar: React.FC<NavbarProps> = ({ userRole }) => {
-    const [navOpen, setNavOpen] = useState(false);
+const Header: React.FC<HeaderProps> = ({ userRole, onLogout }) => {
+  return (
+    <header className="header bg-gray-900 text-white py-4 px-8 flex justify-between items-center">
+      <div className="logo text-2xl font-bold">PG Management</div>
+      <nav>
+        <ul className="flex space-x-6">
+          {/* Role-based Links */}
+          {userRole === 'owner' && (
+            <>
+              <li>
+                <Link to="/dashboard" className="hover:text-gray-400">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to="/pg-details" className="hover:text-gray-400">
+                  PG Details
+                </Link>
+              </li>
+              <li>
+                <Link to="/rents" className="hover:text-gray-400">
+                  Rents
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner-profile" className="hover:text-gray-400">
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={onLogout} // Call onLogout when clicked
+                  className="bg-red-500 px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
 
-    const toggleNav = () => setNavOpen(!navOpen);
+          {userRole === 'tenant' && (
+            <>
+              <li>
+                <Link to="/" className="hover:text-gray-400">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/listings" className="hover:text-gray-400">
+                  Listings
+                </Link>
+              </li>
+              <li>
+                <Link to="/profile" className="hover:text-gray-400">
+                  Profile
+                </Link>
+              </li>
+            </>
+          )}
 
-    return (
-        <nav className="navbar w-[83%]  ml-[16%] rounded-3xl shadow-md backdrop-blur-md bg-black/90 text-white sticky shadow-white/30 top-5 z-50">
-            <div className="container p-4 flex justify-between items-center h-16">
-                {/* Logo */}
-                <div className="text-2xl font-bold">PgOk</div>
-
-                {/* Desktop Menu */}
-                <div className="hidden md:flex space-x-8">
-                  
-                    {userRole === 'tenant' ? (
-                        <>
-                            <Link to="/" className="hover:text-gray-400">Home</Link>
-                            <Link to="/listings" className="hover:text-gray-400">Listings</Link>
-                            <Link to="/profile" className="hover:text-gray-400">Profile</Link>
-                            <Link to="/registeration" className="hover:text-gray-400">Registration</Link>
-                            <Link to="/login" className="hover:text-gray-400">Login</Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/owner" className="hover:text-gray-400">Dashboard</Link>
-                            <Link to="/rents" className="hover:text-gray-400">Rents</Link>
-                            <Link to="/pg-details" className="hover:text-gray-400">PG Details</Link>
-                            <Link to="/owner-profile" className="hover:text-gray-400">Profile</Link>
-                          
-                        
-                        </>
-                    )}
-                </div>
-
-                {/* Hamburger Menu Icon */}
-                <div className="md:hidden flex items-center">
-                    <button onClick={toggleNav} className="focus:outline-none text-white">
-                        {navOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-                    </button>
-                </div>
-            </div>
-
-            {/* Mobile Menu */}
-            {navOpen && (
-                <div className="absolute left-0 right-0 bg-black/80 rounded-2xl text-white px-4 pt-2 pb-4 space-y-4 transition-all duration-300 ease-in-out">
-                    {userRole === 'tenant' ? (
-                        <>
-                            <Link to="/" onClick={toggleNav} className="block hover:text-gray-400">Home</Link>
-                            <Link to="/listings" onClick={toggleNav} className="block hover:text-gray-400">Listings</Link>
-                            <Link to="/profile" onClick={toggleNav} className="block hover:text-gray-400">Profile</Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/owner" onClick={toggleNav} className="block hover:text-gray-400">Dashboard</Link>
-                            <Link to="/rents" onClick={toggleNav} className="block hover:text-gray-400">Rents</Link>
-                            <Link to="/pg-details" onClick={toggleNav} className="block hover:text-gray-400">PG Details</Link>
-                            <Link to="/owner-profile" onClick={toggleNav} className="block hover:text-gray-400">Profile</Link>
-                           
-                        </>
-                    )}
-                </div>
-            )}
-        </nav>
-    );
+          {/* Unauthenticated Links */}
+          {!userRole && (
+            <>
+              <li>
+                <Link to="/" className="hover:text-gray-400">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-gray-400">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link to="/login" className="hover:text-gray-400">
+                  Login
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
+    </header>
+  );
 };
 
-export default Navbar;
+export default Header;
