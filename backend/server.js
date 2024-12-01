@@ -1,28 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const ownerRoutes = require('../backend/Routes/ownerRoutes'); // Import your routes
+const ownerRoutes = require('../backend/Routes/ownerRoutes'); // Owner-related routes
+const pgMgmtRoutes = require('../backend/Routes/pgMgmtRoutes'); // PG management routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware Configuration
+// Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Specify the frontend URL for development
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  origin: 'http://localhost:3000', // Frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+app.use(bodyParser.json());
 
-// To handle JSON payloads
-app.use(bodyParser.json()); 
+// Routes
+app.use('/api/owners', ownerRoutes);
+app.use('/api/pgmgmt', pgMgmtRoutes);
 
-// Optionally handle preflight requests (OPTIONS)
-app.options('*', cors());
-
-// API Routes
-app.use('/api/owners', ownerRoutes); // Prefix for owner-related routes
-app.use('/api/pgmgmt', ownerRoutes);
-// Root Route for Testing
+// Root Route
 app.get('/', (req, res) => {
   res.send('API is working!');
 });

@@ -1,50 +1,63 @@
 import axios from 'axios';
 
-const API_URL = process.env.API_URL || 'http://localhost:5000/api'; // Use environment variable or fallback to default
+const API_URL = process.env.API_URL;
 
 const apiClient = axios.create({
-  baseURL: API_URL, // Ensure this matches your backend URL
+  baseURL: 'http://localhost:5000/api', // Ensure this matches your backend URL
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Add request interceptor (e.g., for attaching auth tokens)
+// Add request interceptor (if any token is required)
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken'); // Retrieve token from localStorage
+    // Log the request config before sending the request
+    console.log('Request Config:', config);
+
+    const token = localStorage.getItem('authToken'); // Retrieve the token from localStorage
+    console.log('Auth Token:', token); // Check if token is being retrieved correctly
+
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Add Bearer token if available
+      config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Return the modified config
     return config;
   },
   (error) => {
-    // Handle request error
+    // Log any errors in the request interceptor
+    console.error('Request Error:', error); // Log request error
     return Promise.reject(error);
   }
 );
 
-// Add response interceptor for error handling
+// // Add response interceptor (optional)
+// apiClient.interceptors.response.use(
+//   (response) => {
+//     // Log the response data for debugging purposes
+//     console.log('Response Data:', response.data);
+//     return response;
+//   },
+//   (error) => {
+//     // Log any errors in the response interceptor
+//     console.error('Response Error:', error); // Log response error
+
+//     if (error.response && error.response.status === 401) {
+//       // Handle unauthorized access (e.g., redirect to login)
+//       console.log('Unauthorized access detected. Removing auth token...');
+//       localStorage.removeItem('authToken');
+//     }
+
+//     return Promise.reject(error);
+//   }
+// );
 apiClient.interceptors.response.use(
-  (response) => {
-    // Pass through successful responses
-    return response;
-  },
+  (response) => response,
   (error) => {
-    // Handle errors globally
-    if (error.response) {
-      if (error.response.status === 401) {
-        // Unauthorized: Handle token expiration
-        console.warn('Unauthorized: Redirecting to login...');
-        localStorage.removeItem('authToken');
-        window.location.href = '/login'; // Redirect to login page
-      } else if (error.response.status >= 500) {
-        console.error('Server error:', error.response.statusText);
-        alert('An error occurred on the server. Please try again later.');
-      }
-    } else {
-      console.error('Network error:', error.message);
-      alert('Network error: Please check your internet connection or backend service.');
+    console.error('Response Error:', error.response || error); // Log the full error response
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('authToken');
     }
     return Promise.reject(error);
   }

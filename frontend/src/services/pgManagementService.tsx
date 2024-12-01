@@ -1,25 +1,36 @@
 
 import apiClient from '../utils/axiosInstance';
 
-
-export const savePGDetails = async (pgDetails: { name: string; location: string; contact: string }) => {
+const API_URL = process.env.API_URL;
+export const savePGDetails = async (pgDetails: { pg_name: string; pg_address: string; pg_contact: string }) => {
+  console.log('Sending PG details:', pgDetails); // Debug logging
   try {
-    const response = await apiClient.post('/pgmgmt/SavePgDtls', { pgDetails });
-    console.log('PG Details Saved:', response.data);
-    alert('PG details saved successfully!');
-  } catch (error) {
-    console.error('Error saving PG details:', error);
-    alert('Failed to save PG details. Please try again.');
+    const response = await apiClient.post('/pgmgmt/SavePgDtls', pgDetails); // Remove extra object wrapper
+    console.log('Response from server:', response.data); // Debug logging
+    
+  } catch (error:any) {
+   
   }
 };
 
-// Example of a service to fetch PG details for editing
-// export const fetchPGDetails = async (pgId: number) => {
-//   try {
-//     const response = await axios.get(`${API_BASE_URL}/pg/${pgId}`);
-//     return response.data;
-//   } catch (error) {
-//     console.error("Service Error:", error.response || error);
-//     throw error.response ? error.response.data : new Error("Failed to fetch PG details.");
-//   }
-// };
+export const getPgList = async () => {
+  try {
+    const response = await apiClient.get('/pgmgmt/GetPgList'); // Adjust endpoint to match your backend
+    console.log(response)
+    return response.data;
+  } catch (error: any) {
+    console.error('Front end  Error fetching PG list:', error.message);
+    throw error;
+  }
+};
+
+export const saveFloorDetails = async (floorDetails: { pg_id: string; floor_name: string }) => {
+  try {
+    const response = await apiClient.post('/pgmgmt/SaveFloorDetails', floorDetails);
+    return response.data;
+  } catch (error: any) {
+    console.error('Error saving floor details:', error.message);
+    throw error;
+  }
+};
+

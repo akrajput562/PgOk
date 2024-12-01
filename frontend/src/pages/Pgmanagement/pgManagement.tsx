@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../Pgmanagement/PgManagement.css';
-import { savePGDetails } from '../../services/pgManagementService';
+import {savePGDetails } from '../../services/pgManagementService';
 
 interface PgDetails {
-  name: string;
-  location: string;
-  contact: string;
+  pg_name: string;
+  pg_address: string;
+  pg_contact: string;
 }
 
 const PgManagement: React.FC = () => {
   const [pgDetails, setPgDetails] = useState<PgDetails>({
-    name: '',
-    location: '',
-    contact: '',
+    pg_name: '',
+    pg_address: '',
+    pg_contact: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const PgManagement: React.FC = () => {
     try {
       const response = await savePGDetails(pgDetails)
       alert('PG details saved successfully!');
-      setPgDetails({ name: '', location: '', contact: '' });
+      setPgDetails({ pg_name: '', pg_address: '', pg_contact: '' });
     } catch (error) {
       console.error('Error saving PG details:', error);
       alert('Failed to save PG details. Please try again.');
@@ -41,9 +41,9 @@ const PgManagement: React.FC = () => {
           <label htmlFor="name">PG Name:</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={pgDetails.name}
+            id="pg_name"
+            name="pg_name"
+            value={pgDetails.pg_name}
             onChange={handleChange}
             required
           />
@@ -52,9 +52,9 @@ const PgManagement: React.FC = () => {
           <label htmlFor="location">PG Location:</label>
           <input
             type="text"
-            id="location"
-            name="location"
-            value={pgDetails.location}
+            id="pg_address"
+            name="pg_address"
+            value={pgDetails.pg_address}
             onChange={handleChange}
             required
           />
@@ -63,9 +63,9 @@ const PgManagement: React.FC = () => {
           <label htmlFor="contact">Contact Details:</label>
           <input
             type="text"
-            id="contact"
-            name="contact"
-            value={pgDetails.contact}
+            id="pg_contact"
+            name="pg_contact"
+            value={pgDetails.pg_contact}
             onChange={handleChange}
             required
           />

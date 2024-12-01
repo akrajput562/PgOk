@@ -14,12 +14,12 @@ const Sidebar: React.FC = () => {
       </li>
       <li>
         <NavLink to="/add-properties" >
-          Pg Management
+         Add-Pg Details
         </NavLink>
       </li>
       <li>
-        <NavLink to="/bookings" >
-          Bookings
+        <NavLink to="/add-floor" >
+          Add Floor
         </NavLink>
       </li>
       <li>

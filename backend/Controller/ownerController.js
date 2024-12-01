@@ -59,5 +59,6 @@ const login = async (req, res) => {
   });
 };
 
+
 // Export using CommonJS syntax
 module.exports = { registerOwner, login };

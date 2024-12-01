@@ -8,6 +8,7 @@ import Register from './components/Auth/register';
 import AboutPage from './pages/AboutPage';
 import Home from './pages/tenantDashboard';
 import PgManagementForm from './pages/Pgmanagement/pgManagement';
+import FloorDetailsForm from './pages/Pgmanagement/floorDtls';
 
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
                           lastPaymentDate: '',
                           roomRequests: 0,
                         }} />} /><Route path="/add-properties" element={<PgManagementForm />} />
+                        <Route path="/add-floor" element={<FloorDetailsForm />} />
 </>
                   ) : (
                     // Redirect to login if the role is not 'owner'
