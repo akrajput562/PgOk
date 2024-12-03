@@ -8,6 +8,6 @@ const pgController = require('../Controller/pgController')
 
 router.post('/SavePgDtls', authenticate,pgController.savePgDetails);
 router.get('/GetPgList',authenticate,pgController.getPgList)
-
+router.post('/SaveFloorDetails',authenticate,pgController.saveFloorDetails)
 
 module.exports = router;

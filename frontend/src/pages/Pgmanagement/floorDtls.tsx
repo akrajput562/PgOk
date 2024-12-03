@@ -2,20 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { getPgList, saveFloorDetails } from '../../services/pgManagementService';
 import './floorDtls.css';
 
+interface FloorDetails {
+  pg_id: string;
+  floor_name: string;
+}
+
 const FloorDetailsForm: React.FC = () => {
+  const [floorDetails, setFloorDetails] = useState<FloorDetails>({
+    pg_id: '',
+    floor_name: '',
+  });
   const [pgList, setPgList] = useState<{ pg_id: string; pg_name: string }[]>([]);
-  const [selectedPgId, setSelectedPgId] = useState('');
-  const [floorName, setFloorName] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPgList = async () => {
       try {
         const data = await getPgList();
-        // setPgList(data);
-        
+        const formattedData = data.map((pg: { idMstPg: string; pg_name: string }) => ({
+          pg_id: pg.idMstPg,
+          pg_name: pg.pg_name,
+        }));
+        setPgList(formattedData);
       } catch (err) {
         console.error('Error fetching PG list:', err);
         setError('Failed to load PG list. Please try again later.');
@@ -25,20 +35,27 @@ const FloorDetailsForm: React.FC = () => {
     fetchPgList();
   }, []);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFloorDetails({ ...floorDetails, [name]: value });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPgId || !floorName) {
-      setError('Both fields are required.');
+
+    if (!floorDetails.pg_id || !floorDetails.floor_name) {
+      setError('Both PG and floor name are required.');
       return;
     }
 
     setIsLoading(true);
     setError('');
+    setSuccess('');
+
     try {
-      const response = await saveFloorDetails({ pg_id: selectedPgId, floor_name: floorName });
+      await saveFloorDetails(floorDetails);
       setSuccess('Floor details saved successfully!');
-      setFloorName('');
-      setSelectedPgId('');
+      setFloorDetails({ pg_id: '', floor_name: '' });
     } catch (err) {
       console.error('Error saving floor details:', err);
       setError('Failed to save floor details. Please try again.');
@@ -49,16 +66,17 @@ const FloorDetailsForm: React.FC = () => {
 
   return (
     <div className="form-container">
-      <h2>Save Floor Details</h2>
+      <h2>Add Floor Details</h2>
       {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">{success}</div>}
       <form onSubmit={handleSubmit} className="floor-form">
         <div className="form-group">
-          <label htmlFor="pgSelect">Select PG</label>
+          <label htmlFor="pgSelect">Select PG:</label>
           <select
             id="pgSelect"
-            value={selectedPgId}
-            onChange={(e) => setSelectedPgId(e.target.value)}
+            name="pg_id"
+            value={floorDetails.pg_id}
+            onChange={handleChange}
           >
             <option value="">-- Select PG --</option>
             {pgList.map((pg) => (
@@ -69,12 +87,13 @@ const FloorDetailsForm: React.FC = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="floorName">Floor Name</label>
+          <label htmlFor="floorName">Floor Name:</label>
           <input
             id="floorName"
             type="text"
-            value={floorName}
-            onChange={(e) => setFloorName(e.target.value)}
+            name="floor_name"
+            value={floorDetails.floor_name}
+            onChange={handleChange}
             placeholder="Enter floor name"
           />
         </div>
